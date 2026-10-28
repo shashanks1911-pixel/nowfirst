@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { store } from '@/lib/store';
 import { RefreshCw, MessageSquare, Shield, CheckCircle2 } from 'lucide-react';
@@ -10,6 +10,13 @@ export function Footer() {
   const [reportSubmitted, setReportSubmitted] = useState(false);
   const [reportUrl, setReportUrl] = useState('');
   const [reportReason, setReportReason] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsAdmin(sessionStorage.getItem('nowfirst_admin_authenticated') === 'true');
+    }
+  }, []);
 
   const handleReportSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,9 +78,11 @@ export function Footer() {
             <Link href="/dashboard" className="hover:text-apple-text transition-colors">
               Dashboard
             </Link>
-            <Link href="/admin" className="hover:text-apple-text transition-colors">
-              Moderation & Admin
-            </Link>
+            {isAdmin && (
+              <Link href="/admin" className="text-apple-accent hover:underline font-medium transition-colors">
+                Admin Console
+              </Link>
+            )}
             <button
               onClick={() => setReportModalOpen(true)}
               className="text-apple-secondary hover:text-apple-text transition-colors underline"

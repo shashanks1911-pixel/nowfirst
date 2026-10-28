@@ -25,9 +25,13 @@ export function Header({
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    if (typeof window !== 'undefined') {
+      setIsAdmin(sessionStorage.getItem('nowfirst_admin_authenticated') === 'true');
+    }
   }, []);
 
   const isCompanies = pathname === '/' || pathname.startsWith('/companies');
@@ -121,12 +125,15 @@ export function Header({
           >
             Dashboard
           </Link>
-          <Link
-            href="/admin"
-            className="text-xs font-medium text-apple-secondary hover:text-apple-text transition-colors hidden lg:block"
-          >
-            Admin
-          </Link>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="text-xs font-medium text-apple-accent hover:text-apple-accentHover transition-colors flex items-center gap-1.5"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-apple-accent" />
+              <span>Admin Console</span>
+            </Link>
+          )}
 
           {/* Primary CTA */}
           {onOpenTakeoverModal && (
