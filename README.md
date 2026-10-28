@@ -1,5 +1,7 @@
 # NowFirst (Provisional) — The Real-Time Spotlight Billboard
 
+> **Live Hosted Website:** [https://shashanks1911-pixel.github.io/nowfirst/](https://shashanks1911-pixel.github.io/nowfirst/)
+
 NowFirst is an Apple-inspired, high-transparency advertising platform featuring two independent destinations:
 - **Companies (`/companies`)**: Paid promotion of company websites, SaaS platforms, and enterprise tools.
 - **Social (`/social`)**: Paid promotion of Instagram profiles, X profiles, Facebook Pages/profiles, and LinkedIn profiles/company pages.
