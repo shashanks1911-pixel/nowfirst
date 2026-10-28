@@ -990,11 +990,13 @@ class NowFirstStore {
     board: BoardType;
     isSpotlight: boolean;
     channel?: 'spotlight' | 'directory' | 'partner_newsletter';
-    ip: string;
-    userAgent: string;
+    ip?: string;
+    userAgent?: string;
   }): { redirected: boolean; counted: boolean; reason: string } {
-    const isBot = /(bot|crawler|spider|facebookexternalhit|LinkedInBot|Twitterbot|curl|wget)/i.test(params.userAgent);
-    const cooldownKey = `${params.ip}:${params.placementId}`;
+    const userAgent = params.userAgent ?? (typeof navigator !== 'undefined' ? navigator.userAgent : '');
+    const ip = params.ip ?? 'client';
+    const isBot = /(bot|crawler|spider|facebookexternalhit|LinkedInBot|Twitterbot|curl|wget)/i.test(userAgent);
+    const cooldownKey = `${ip}:${params.placementId}`;
     const lastClickTime = this.clickCooldowns.get(cooldownKey) || 0;
     const isCooldown = Date.now() - lastClickTime < 10 * 60 * 1000; // 10 minutes
 
@@ -1019,8 +1021,8 @@ class NowFirstStore {
       board: params.board,
       isSpotlight: params.isSpotlight,
       channel,
-      ipHash: `hash_${params.ip.replace(/[^a-zA-Z0-9]/g, '').substring(0, 12)}`,
-      userAgent: params.userAgent,
+      ipHash: `hash_${ip.replace(/[^a-zA-Z0-9]/g, '').substring(0, 12)}`,
+      userAgent: userAgent,
       isValid: counted,
       filterReason,
       createdAt: new Date().toISOString(),

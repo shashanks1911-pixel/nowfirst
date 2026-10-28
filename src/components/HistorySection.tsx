@@ -283,7 +283,14 @@ export function HistorySection({ board, history }: HistorySectionProps) {
                 month: 'short',
                 day: 'numeric',
               });
-              const redirectUrl = `/api/clicks/redirect?placementId=${item.id}&board=${board}&isSpotlight=false`;
+              const handleHistoryClick = () => {
+                store.recordOutboundClick({
+                  placementId: item.id,
+                  board: board,
+                  isSpotlight: false,
+                  channel: 'directory',
+                });
+              };
 
               return (
                 <motion.div
@@ -380,9 +387,10 @@ export function HistorySection({ board, history }: HistorySectionProps) {
                     </div>
 
                     <a
-                      href={redirectUrl}
+                      href={item.adRevision.destinationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={handleHistoryClick}
                       className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-apple-subtle hover:bg-apple-border text-apple-text text-xs font-medium border border-apple-border transition-all shadow-apple-sm"
                     >
                       <span>Claim Perk</span>

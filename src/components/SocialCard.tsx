@@ -53,7 +53,15 @@ export function SocialCard({ placement, isSpotlight = false, onVisit }: SocialCa
     day: 'numeric',
   });
 
-  const redirectUrl = `/api/clicks/redirect?placementId=${placement.id}&board=social&isSpotlight=${isSpotlight}`;
+  const handleOutboundClick = () => {
+    store.recordOutboundClick({
+      placementId: placement.id,
+      board: 'social',
+      isSpotlight,
+      channel: isSpotlight ? 'spotlight' : 'directory',
+    });
+    if (onVisit) onVisit();
+  };
 
   return (
     <article
@@ -184,10 +192,10 @@ export function SocialCard({ placement, isSpotlight = false, onVisit }: SocialCa
         </div>
 
         <a
-          href={redirectUrl}
+          href={adRevision.destinationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={onVisit}
+          onClick={handleOutboundClick}
           className={`inline-flex items-center gap-1.5 rounded-full font-medium transition-all ${
             isSpotlight
               ? 'px-5 py-2.5 bg-apple-text hover:bg-black text-white text-xs md:text-sm shadow-apple-sm'
